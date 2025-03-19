@@ -1,0 +1,28 @@
+{
+  "name": "win-audio-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "audio-manager": "./cli/audio-manager.js"
+  },
+  "scripts": {
+    "test": "node test/testAll.js"
+  },
+  "keywords": ["windows", "audio", "device", "CLI"],
+  "author": "sameerbk201",
+  "license": "ISC",
+  "description": "A Node.js library for managing Windows audio devices",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "inquirer": "^12.5.0",
+    "ora": "^8.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TrueHear/win-audio-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TrueHear/win-audio-manager.git"
+  },
+  "homepage": "https://github.com/TrueHear/win-audio-manager.git#readme"
+}
