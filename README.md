@@ -168,6 +168,8 @@ getDefaultPlaybackDevice().then(device => {
 
 #### **Using `then/catch`:**
 
+**✅ By Index:**
+
 ```javascript
 listAudioDevices().then(devices => {
     const selectedIndex = 1; // Change this index as needed
@@ -183,7 +185,28 @@ listAudioDevices().then(devices => {
 });
 ```
 
+**✅ By ID:**
+
+```javascript
+listAudioDevices().then(devices => {
+    const selectedIndex = 1; // Change this index as needed
+    const selectedDevice = devices[selectedIndex];
+
+    console.log(`🔄 Switching to: ${selectedDevice.Name} (ID: ${selectedDevice.ID})`);
+
+    setAudioDeviceById(selectedDevice.ID).then(id => {
+        console.log(`✅ Successfully set device by ID: ${devices.find(d => d.ID === id).Name}`);
+    }).catch(error => {
+        console.error("❌ Error:", error.message);
+    });
+});
+```
+
+---
+
 #### **Using `async/await`:**
+
+**✅ By Index:**
 
 ```javascript
 (async () => {
@@ -195,7 +218,6 @@ listAudioDevices().then(devices => {
         console.log(`🔄 Switching to: ${selectedDevice.Name} (ID: ${selectedDevice.ID})`);
 
         const deviceIndex = await setAudioDevice(selectedDevice.Index);
-
         console.log(`✅ Successfully set device: ${devices.find(d => d.Index === deviceIndex).Name}`);
     } catch (error) {
         console.error("❌ Error:", error.message);
@@ -203,15 +225,27 @@ listAudioDevices().then(devices => {
 })();
 ```
 
-**🔹 Example Output:**
+**✅ By ID:**
 
-```bashV
-🔄 Switching to: Headphones (ID: {1.0.0.00000001})
-✅ Successfully set device: Headphones
+```javascript
+(async () => {
+    try {
+        const devices = await listAudioDevices();
+        const selectedIndex = 1; // Change this index as needed
+        const selectedDevice = devices[selectedIndex];
+
+        console.log(`🔄 Switching to: ${selectedDevice.Name} (ID: ${selectedDevice.ID})`);
+
+        const deviceId = await setAudioDeviceById(selectedDevice.ID);
+        console.log(`✅ Successfully set device by ID: ${devices.find(d => d.ID === deviceId).Name}`);
+    } catch (error) {
+        console.error("❌ Error:", error.message);
+    }
+})();
 ```
 
 ---
-
+  
 ## **🛠️ Error Handling**
 
 This library **throws errors** for failed operations. Always use `.catch()` or `try...catch` to handle exceptions.

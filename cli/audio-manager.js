@@ -9,7 +9,8 @@
         isModuleInstalled,
         listAudioDevices,
         setAudioDevice,
-        getDefaultPlaybackDevice
+        setAudioDeviceById,
+        getDefaultPlaybackDevice,
     } = await import("../index.js");
 
     /**
@@ -54,6 +55,7 @@
                             { name: "🔊 List Audio Devices", value: "list" },
                             { name: "🎧 Get Default Playback Device", value: "getDefault" },
                             { name: "🔄 Set Default Playback Device", value: "set" },
+                            { name: "🆔 Set Default Playback Device (by ID)", value: "setById" },
                             { name: "❌ Exit", value: "exit" }
                         ]
                     }
@@ -69,6 +71,9 @@
                         break;
                     case "set":
                         await handleSetDefaultDevice();
+                        break;
+                    case "setById":
+                        await handleSetDefaultDeviceById();
                         break;
                     case "exit":
                         console.log(chalk.green("\n👋 Exiting. Have a great day!\n"));
@@ -181,6 +186,31 @@
         } catch (error) {
             spinner.stop();
             console.log(chalk.red("❌ Error setting default device:"), error.message);
+        }
+    }
+
+    /**
+     * Function to change the default playback using Id
+     */
+    async function handleSetDefaultDeviceById() {
+        console.log(chalk.blue("\n🆔 Set Default Playback Device by ID\n"));
+        const { deviceId } = await inquirer.prompt([
+            {
+                type: "input",
+                name: "deviceId",
+                message: "Paste the device ID:",
+                validate: input => input.trim() !== "" || "Device ID cannot be empty."
+            }
+        ]);
+
+        const spinner = ora(`Switching to device with ID: ${deviceId}...`).start();
+        try {
+            await setAudioDeviceById(deviceId.trim());
+            spinner.stop();
+            console.log(chalk.green(`✅ Successfully set default audio device by ID!`));
+        } catch (error) {
+            spinner.stop();
+            console.log(chalk.red("❌ Error setting device by ID:"), error.message);
         }
     }
 
